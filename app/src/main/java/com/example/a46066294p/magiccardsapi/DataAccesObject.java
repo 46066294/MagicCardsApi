@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -21,45 +22,52 @@ public class DataAccesObject {
 
     private final String BASE_URL = "https://api.magicthegathering.io/";
 
-    public String getCards(String pais) {
-            ArrayList<Cards> getCards(String pais) {
-            Uri builtUri = Uri.parse(BASE_URL)
-                    .buildUpon()
-                    .appendPath("v1")
-                    .appendPath("cards")
-                    //.appendQueryParameter("country", pais)
-                    .build();
-            String url = builtUri.toString();
+    public ArrayList<Cards> getCards()  {
+        Uri builtUri = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("v1")
+                .appendPath("cards")
+                //.appendQueryParameter("country", pais)
+                .build();
+        String url = builtUri.toString();
 
-            return url;
-        }
+        return doCall(url);
+
     }
 
-    private ArrayList<Movie> processJson(String jsonResponse) {
 
-            ArrayList<Movie> movies = new ArrayList<>();
-            try {
-                JSONObject data = new JSONObject(jsonResponse);
-                JSONArray jsonCards = data.getJSONArray("cards");
+    private ArrayList<Cards> doCall(String url){
+        try {
+            String JsonResponse = HttpUtils.get(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                for (int i = 0; i < jsonCards.length(); i++) {
-                    JSONObject jsonOneCard = jsonCards.getJSONObject(i);
+        return null;
+    }
 
-                    Cards cards = new Cards();
-                    cards.setTitle(jsonMovie.getString("title"));
-                    cards.setYear(jsonMovie.getInt("year"));
-                    cards.setSynopsis(jsonMovie.getString("synopsis"));
-                    cards.setPosterUrl(jsonMovie.getJSONObject("posters").getString("thumbnail"));
-                    cards.setCritics_score(jsonMovie.getJSONObject("ratings").getInt("critics_score"));
 
-                    movies.add(movie);
-                }
+    private ArrayList<Cards> processJson(String jsonResponse) {
+
+        ArrayList<Cards> cards = new ArrayList<>();
+        try {
+            JSONObject data = new JSONObject(jsonResponse);
+            JSONArray jsonCards = data.getJSONArray("cards");
+
+            for (int i = 0; i < jsonCards.length(); i++) {
+                JSONObject jsonOneCard = jsonCards.getJSONObject(i);
+
+                Cards card = new Cards();
+                card.setCardName("cardName");
+
+                cards.add(card);
             }
-            catch (JSONException e) {
-                    e.printStackTrace();
-            }
+        }
+        catch (JSONException e) {
+                e.printStackTrace();
+        }
 
-                    return movies;
+        return cards;
     }
 
 }// DataAccesObject class
