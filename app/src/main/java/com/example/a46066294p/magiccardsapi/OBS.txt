@@ -1,0 +1,2 @@
+https://docs.magicthegathering.io/?shell#headers
+https://docs.magicthegathering.io/?shell#overview
