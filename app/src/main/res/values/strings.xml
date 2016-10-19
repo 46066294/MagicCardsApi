@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MagicCardsApi</string>
-    <string name="action_settings_refresh">Refresh</string>
+    <string name="action_settings">Refresh</string>
 </resources>

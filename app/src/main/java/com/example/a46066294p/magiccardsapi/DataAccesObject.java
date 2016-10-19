@@ -2,6 +2,7 @@ package com.example.a46066294p.magiccardsapi;
 
 import android.graphics.Movie;
 import android.net.Uri;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  * Created by 46066294p on 14/10/16.
@@ -20,35 +22,52 @@ public class DataAccesObject {
     https://api.magicthegathering.io/v1/cards
     */
 
-    private final String BASE_URL = "https://api.magicthegathering.io/";
-
-    public ArrayList<Cards> getCards()  {
-        Uri builtUri = Uri.parse(BASE_URL)
-                .buildUpon()
-                .appendPath("v1")
-                .appendPath("cards")
-                //.appendQueryParameter("country", pais)
-                .build();
-        String url = builtUri.toString();
-
-        return doCall(url);
-
+    public DataAccesObject() {
     }
 
+    private final String BASE_URL = "https://api.magicthegathering.io/v1/cards";
 
-    private ArrayList<Cards> doCall(String url){
+    public ArrayList<Cards> getCards()  {
+        String url = getUrl();
+
+        Log.d("URL: ", url);
+
+        return doCall(url);
+    }
+
+    private ArrayList<Cards> doCall(String url) {
         try {
+
+            //conexio a a la api
             String JsonResponse = HttpUtils.get(url);
+
+            return processJson(JsonResponse);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
+    }
+
+    public String getUrl(){
+        Uri builtUri = Uri.parse(BASE_URL)
+                /*
+                .buildUpon()
+                .appendPath("lists")
+                .appendPath("movies")
+                .appendPath(endpoint)
+                .appendQueryParameter("country", pais)
+                .appendQueryParameter("limit", LIMIT.toString())
+                .appendQueryParameter("apikey", API_KEY)
+                .build();
+                */
+                .buildUpon()
+                .build();
+        return builtUri.toString();
     }
 
 
     private ArrayList<Cards> processJson(String jsonResponse) {
-
         ArrayList<Cards> cards = new ArrayList<>();
         try {
             JSONObject data = new JSONObject(jsonResponse);
@@ -58,7 +77,7 @@ public class DataAccesObject {
                 JSONObject jsonOneCard = jsonCards.getJSONObject(i);
 
                 Cards card = new Cards();
-                card.setCardName("cardName");
+                card.setCardName(jsonOneCard.getString("name"));
 
                 cards.add(card);
             }
