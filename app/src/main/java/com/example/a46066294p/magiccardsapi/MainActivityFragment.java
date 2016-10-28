@@ -1,5 +1,6 @@
 package com.example.a46066294p.magiccardsapi;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -39,6 +40,8 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ListView lvCards = (ListView)view.findViewById(R.id.lvCards);
 
@@ -77,9 +80,16 @@ public class MainActivityFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //Refresh
         if (id == R.id.action_refresh) {
             refresh();
+            return true;
+        }
+
+        //Settings
+        if (id == R.id.action_settings) {
+            Intent i = new Intent(getContext(), SettingsActivity.class);
+            startActivity(i);
             return true;
         }
 
@@ -110,7 +120,7 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(ArrayList<Cards> cardsApi) {
             adapter.clear();
             for (Cards cards : cardsApi) {
-                adapter.add(cards.getCardName());
+                adapter.add(cards.getName());
             }
         }
     }

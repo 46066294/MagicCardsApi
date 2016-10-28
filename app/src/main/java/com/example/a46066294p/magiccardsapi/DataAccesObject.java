@@ -77,7 +77,7 @@ public class DataAccesObject {
                 JSONObject jsonOneCard = jsonCards.getJSONObject(i);
 
                 Cards card = new Cards();
-                card.setCardName(jsonOneCard.getString("name"));
+                card.setName(jsonOneCard.getString("name"));
 
                 cards.add(card);
             }
