@@ -3,8 +3,7 @@ package com.example.a46066294p.magiccardsapi;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+
 
 public class MainActivity extends AppCompatActivity {
 

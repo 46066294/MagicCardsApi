@@ -2,6 +2,7 @@ package com.example.a46066294p.magiccardsapi;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,8 +25,8 @@ import java.util.Arrays;
  */
 public class MainActivityFragment extends Fragment {
 
-    private ArrayList<String> items;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<Cards> items;
+    private CardsAdapter adapter;
 
     public MainActivityFragment() {
     }
@@ -40,31 +40,31 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+/*
+        FragmentMainBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_main, container, false);//Data Binding Layout Files --> ver https://developer.android.com/topic/libraries/data-binding/index.html
+        View view = binding.getRoot();*/
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ListView lvCards = (ListView)view.findViewById(R.id.lvCards);
 
-        String[] data = {
-                "Los 400 golpes",
-                "El odio",
-                "El padrino",
-                "El padrino. Parte II",
-                "Ocurrió cerca de su casa",
-                "Infiltrados",
-                "Umberto D."
-        };
+        //String[] data = {"Loading..."};
 
-        items = new ArrayList<>(Arrays.asList(data));
-        adapter = new ArrayAdapter<>( //obs: extends BaseAdapter implements Filterable, ThemedSpinnerAdapter
+        items = new ArrayList<>();
+        adapter = new CardsAdapter(
                 getContext(),
                 R.layout.lv_cards_row,
-                R.id.tvCardName,
                 items
         );
         lvCards.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refresh();
     }
 
     @Override
@@ -120,7 +120,7 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(ArrayList<Cards> cardsApi) {
             adapter.clear();
             for (Cards cards : cardsApi) {
-                adapter.add(cards.getName());
+                adapter.add(cards);
             }
         }
     }

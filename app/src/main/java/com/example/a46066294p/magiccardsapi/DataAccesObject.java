@@ -78,6 +78,10 @@ public class DataAccesObject {
 
                 Cards card = new Cards();
                 card.setName(jsonOneCard.getString("name"));
+                card.setType(jsonOneCard.getString("type"));
+                card.setRarity(jsonOneCard.getString("rarity"));
+                card.setText(jsonOneCard.getString("text"));
+                card.setImageUrl(jsonOneCard.getString("imageUrl"));
 
                 cards.add(card);
             }
