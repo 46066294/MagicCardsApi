@@ -40,9 +40,8 @@ public class CardsAdapter extends ArrayAdapter<Cards>{
         TextView tvCardTitle = (TextView) convertView.findViewById(R.id.tvCardName);
         TextView tvColor = (TextView) convertView.findViewById(R.id.color);
         TextView tvType = (TextView) convertView.findViewById(R.id.type);
-        TextView tvRarity = (TextView) convertView.findViewById(R.id.color);
+        TextView tvRarity = (TextView) convertView.findViewById(R.id.rarity);
         TextView tvDescription = (TextView) convertView.findViewById(R.id.text);
-
         ImageView ivPosterImage = (ImageView) convertView.findViewById(R.id.imgUrl);
 
         // Fiquem les dades dels objectes (provinents del JSON) en el layout
@@ -52,9 +51,9 @@ public class CardsAdapter extends ArrayAdapter<Cards>{
         tvRarity.setText(card.getRarity());
         tvDescription.setText(card.getText());
 
-        //Utilitzem Glide
+        //Utilitzem Glide per les imatges
         Glide.with(getContext()).load(card.getImageUrl()).into(ivPosterImage);
-        Log.w("XXXX", card.toString());
+        Log.w("CARD ", card.toString());
 
         // Retornem la View replena per a mostrarla
         return convertView;
