@@ -38,14 +38,16 @@ public class CardsAdapter extends ArrayAdapter<Cards>{
 
         // Unim el codi en les Views del Layout
         TextView tvCardTitle = (TextView) convertView.findViewById(R.id.tvCardName);
+        TextView tvColor = (TextView) convertView.findViewById(R.id.color);
         TextView tvType = (TextView) convertView.findViewById(R.id.type);
-        TextView tvRarity = (TextView) convertView.findViewById(R.id.rarity);
+        TextView tvRarity = (TextView) convertView.findViewById(R.id.color);
         TextView tvDescription = (TextView) convertView.findViewById(R.id.text);
 
         ImageView ivPosterImage = (ImageView) convertView.findViewById(R.id.imgUrl);
 
         // Fiquem les dades dels objectes (provinents del JSON) en el layout
         tvCardTitle.setText(card.getName());
+        tvColor.setText(card.getColor().toString());
         tvType.setText(card.getType());
         tvRarity.setText(card.getRarity());
         tvDescription.setText(card.getText());

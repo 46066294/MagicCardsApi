@@ -1,2 +1,9 @@
 https://docs.magicthegathering.io/?shell#headers
 https://docs.magicthegathering.io/?shell#overview
+
+patrones de diseño android:
+    https://material.google.com/patterns/settings.html#settings-labels-secondary-text
+
+
+llamada filtrada
+    https://api.magicthegathering.io/v1/cards?supertypes=legendary&type=creature&rarity=uncommon,special&colors=white,blue
