@@ -79,12 +79,12 @@ public class Cards implements Serializable{
     public String toString() {
         return "Card{" +
                 "name='" + name + '\'' +
-                //", color='" + color + '\'' +
+                ", color='" + color + '\'' +
                 ", rarity='" + rarity + '\'' +
                 ", text='" + text + '\'' +
                 ", type='" + type + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                '}';
+                '}' + "\n";
     }
 
     void addColor(String color) {

@@ -2,13 +2,15 @@ package com.example.a46066294p.magiccardsapi;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,12 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import org.xmlpull.v1.XmlPullParser;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+
 import java.util.Set;
 
 /**
@@ -142,85 +144,29 @@ public class MainActivityFragment extends Fragment {
 
 
     private class FilterDataTask extends AsyncTask<Void, Void, ArrayList<Cards>> {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         protected ArrayList<Cards> doInBackground(Void... voids) {
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-            String str = "no_exists";
-            Set<String> set = new Set<String>() {
-                @Override
-                public int size() {
-                    return 5;
-                }
-
-                @Override
-                public boolean isEmpty() {
-                    return false;
-                }
-
-                @Override
-                public boolean contains(Object o) {
-                    return false;
-                }
-
-                @NonNull
-                @Override
-                public Iterator<String> iterator() {
-                    return null;
-                }
-
-                @NonNull
-                @Override
-                public Object[] toArray() {
-                    return new Object[0];
-                }
-
-                @NonNull
-                @Override
-                public <T> T[] toArray(T[] ts) {
-                    return null;
-                }
-
-                @Override
-                public boolean add(String s) {
-                    return false;
-                }
-
-                @Override
-                public boolean remove(Object o) {
-                    return false;
-                }
-
-                @Override
-                public boolean containsAll(Collection<?> collection) {
-                    return false;
-                }
-
-                @Override
-                public boolean addAll(Collection<? extends String> collection) {
-                    return false;
-                }
-
-                @Override
-                public boolean retainAll(Collection<?> collection) {
-                    return false;
-                }
-
-                @Override
-                public boolean removeAll(Collection<?> collection) {
-                    return false;
-                }
-
-                @Override
-                public void clear() {
-
-                }
-            };
-            set.add(str);
-            Set<String> colors = preferences.getStringSet("multi_select_list_preference_1", set);
+            //String color = preferences.getStringSet("color")
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////
+            Set<String> colors = preferences.getStringSet("multi_select_list_filter", new ArraySet<String>());
+            //colors.add("item");
             //String rareza = preferences.getString("rareza","uncommon");
-            Log.d("Set colors-->", String.valueOf(colors));
+            Log.d("enFilterDataTAsk" , "OOOOLE");
+            /*
+            <string-array name="http_rarity_cards">
+                <item>basic_land</item>
+                <item>common</item>
+                <item>uncommon</item>
+                <item>rare</item>
+                <item>mythic_rare</item>
+                <item>special</item>
+            </string-array>
+             */
+
             DataAccesObject dao = new DataAccesObject();
             ArrayList<Cards> result = dao.getCards(colors);
 

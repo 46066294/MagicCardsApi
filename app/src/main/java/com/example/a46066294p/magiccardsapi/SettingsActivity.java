@@ -11,8 +11,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
@@ -198,8 +200,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("color"));
             //bindPreferenceSummaryToValue(findPreference("multi_select_list_preference_1"));
             //bindPreferenceSummaryToValue(findPreference("rarity"));
-
-            Log.i("", "");
         }
 
         @Override
@@ -259,7 +259,45 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
+
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class FilterPreferenceFragment extends PreferenceFragment {
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_filter);
+            setHasOptionsMenu(true);
+
+            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
+            // to their values. When their values change, their summaries are
+            // updated to reflect the new value, per the Android Design
+            // guidelines.
+            //bindPreferenceSummaryToValue(findPreference("multi_select_list_filter"));
+
+
+            //MultiSelectListPreference multiSelectListPreference = new MultiSelectListPreference(getContext());
+            //multiSelectListPreference.findIndexOfValue("multi_select_list_filter");
+            Log.d("TESTING" , "multiSelectListPreference");
+
+
+            //     ¿¿¿intent a MainAcivityFragment????
+            //Intent intent = new Intent(getContext(), MainActivity.class);
+            //startActivity(intent);
         }
 
         @Override
@@ -275,6 +313,35 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//----------------OBS----------------
 
 /*
 <MultiSelectListPreference

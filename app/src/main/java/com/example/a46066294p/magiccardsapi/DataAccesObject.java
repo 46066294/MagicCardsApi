@@ -58,6 +58,7 @@ public class DataAccesObject {
     }
 
     public String getUrl(Set<String> color){
+        Log.d("getURL-colorSet" , color.toString());
         Uri builtUri = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendQueryParameter("colors", color.toString())
@@ -106,7 +107,7 @@ public class DataAccesObject {
                     for(int j = 0; j < jsonArrayColors.length(); j++){
                         //Log.d("COLOR::", jsonArrayColors.getString(j));
                         String color = jsonArrayColors.getString(j);
-                        Log.d("COLORRR::", color);
+                        //Log.d("COLOR::", color);
                         card.addColor(color);
                         //Log.d("COLORcard", String.valueOf(card.getColor()));
 

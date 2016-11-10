@@ -1,5 +1,6 @@
-https://docs.magicthegathering.io/?shell#headers
-https://docs.magicthegathering.io/?shell#overview
+API
+    https://docs.magicthegathering.io/?shell#headers
+    https://docs.magicthegathering.io/?shell#overview
 
 patrones de diseño android:
     https://material.google.com/patterns/settings.html#settings-labels-secondary-text
@@ -7,3 +8,16 @@ patrones de diseño android:
 
 llamada filtrada
     https://api.magicthegathering.io/v1/cards?supertypes=legendary&type=creature&rarity=uncommon,special&colors=white,blue
+
+important info per MultiSelectListPreference
+    http://stackoverflow.com/questions/15628558/how-to-set-multiple-default-values-in-a-multiselectlistpreference
+
+buen tutorial de headers para preferences -- buenas practicas
+    https://www.youtube.com/watch?v=Kn9YHYxksb8
+
+
+Atributs
+    https://developer.android.com/reference/android/R.attr.html#entryValues
+
+MultiSelectListPreference explicado bien
+    http://www.programcreek.com/java-api-examples/index.php?api=android.preference.MultiSelectListPreference
