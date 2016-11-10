@@ -88,7 +88,7 @@ public class MainActivityFragment extends Fragment {
 
         //Refresh
         if (id == R.id.action_refresh) {
-            refresh();
+            filter();
             return true;
         }
 
@@ -133,8 +133,6 @@ public class MainActivityFragment extends Fragment {
 
 
 
-
-
     private void filter() {
 
         FilterDataTask task = new FilterDataTask();
@@ -148,14 +146,17 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected ArrayList<Cards> doInBackground(Void... voids) {
 
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-
             //String color = preferences.getStringSet("color")
             ///////////////////////////////////////////////////////////////////////////////////////////////////////
-            Set<String> colors = preferences.getStringSet("multi_select_list_filter", new ArraySet<String>());
-            //colors.add("item");
-            //String rareza = preferences.getString("rareza","uncommon");
-            Log.d("enFilterDataTAsk" , "OOOOLE");
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            Set<String> selections = preferences.getStringSet("multi_select_list_preference_1" , null);
+            String[] selected= selections.toArray(new String[] {});
+            for (int i = 0; i < selected.length ; i++){
+                System.out.println("\ntest" + i +" : " + selected[i]);
+            }
+
+            Log.d("TESTING" , " multiselect");
+
             /*
             <string-array name="http_rarity_cards">
                 <item>basic_land</item>
@@ -168,7 +169,7 @@ public class MainActivityFragment extends Fragment {
              */
 
             DataAccesObject dao = new DataAccesObject();
-            ArrayList<Cards> result = dao.getCards(colors);
+            ArrayList<Cards> result = dao.getCards(selections);
 
             Log.d("DEBUG", result != null ? result.toString() : null);
 
