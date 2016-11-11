@@ -2,11 +2,9 @@ package com.example.a46066294p.magiccardsapi;
 
 import android.net.Uri;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -159,14 +157,9 @@ public class DataAccesObject {
 
                 if(jsonOneCard.toString().contains("\"colors\":")){
                     JSONArray jsonArrayColors = jsonOneCard.getJSONArray("colors");
-                    //Log.d("JSONArray", jsonArrayColors.toString());
                     for(int j = 0; j < jsonArrayColors.length(); j++){
-                        //Log.d("COLOR::", jsonArrayColors.getString(j));
                         String color = jsonArrayColors.getString(j);
-                        //Log.d("COLOR::", color);
                         card.addColor(color);
-                        //Log.d("COLORcard", String.valueOf(card.getColor()));
-
                     }
                 } else
                     card.addColor("no_color");

@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -54,7 +55,7 @@ public class MainActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ListView lvCards = (ListView)view.findViewById(R.id.lvCards);
 
-        //String[] data = {"Loading..."};
+        String[] data = {"Loading..."};
 
         items = new ArrayList<>();
         adapter = new CardsAdapter(
@@ -62,7 +63,19 @@ public class MainActivityFragment extends Fragment {
                 R.layout.lv_cards_row,
                 items
         );
+
         lvCards.setAdapter(adapter);
+
+        lvCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Cards card = (Cards)adapterView.getItemAtPosition(i);
+
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra("card" , card);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -146,16 +159,12 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected ArrayList<Cards> doInBackground(Void... voids) {
 
-            //String color = preferences.getStringSet("color")
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             Set<String> selections = preferences.getStringSet("multi_select_list_preference_1" , null);
             String[] selected= selections.toArray(new String[] {});
             for (int i = 0; i < selected.length ; i++){
                 System.out.println("\ntest" + i +" : " + selected[i]);
             }
-
-            Log.d("TESTING" , " multiselect");
 
             /*
             <string-array name="http_rarity_cards">

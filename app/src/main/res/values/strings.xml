@@ -105,7 +105,9 @@
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="action_settings">Settings</string>
 
-
+    <!-- Detail Activity -->
+    <string name="title_activity_detail">DetailActivity</string>
 
 </resources>
