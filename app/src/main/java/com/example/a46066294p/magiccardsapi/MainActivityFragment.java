@@ -2,10 +2,10 @@ package com.example.a46066294p.magiccardsapi;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import org.xmlpull.v1.XmlPullParser;
+import com.example.a46066294p.magiccardsapi.databinding.FragmentMainBinding;
 
 import java.util.ArrayList;
 
@@ -47,13 +47,13 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-/*
+
         FragmentMainBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_main, container, false);//Data Binding Layout Files --> ver https://developer.android.com/topic/libraries/data-binding/index.html
-        View view = binding.getRoot();*/
+        View view = binding.getRoot();
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView lvCards = (ListView)view.findViewById(R.id.lvCards);
+        /*View view = inflater.inflate(R.layout.fragment_main, container, false);
+        ListView lvCards = (ListView)view.findViewById(R.id.lvCards);*/
 
         String[] data = {"Loading..."};
 
@@ -64,9 +64,9 @@ public class MainActivityFragment extends Fragment {
                 items
         );
 
-        lvCards.setAdapter(adapter);
+        binding.lvCards.setAdapter(adapter);
 
-        lvCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.lvCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cards card = (Cards)adapterView.getItemAtPosition(i);
@@ -83,7 +83,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        refresh();
+        filter();
     }
 
     @Override

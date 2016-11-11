@@ -1,15 +1,16 @@
 package com.example.a46066294p.magiccardsapi;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.example.a46066294p.magiccardsapi.databinding.LvCardsRowBinding;
+
 
 import java.util.List;
 
@@ -28,14 +29,19 @@ public class CardsAdapter extends ArrayAdapter<Cards>{
     public View getView(int position, View convertView, ViewGroup parent) {
         // Obtenim l'objecte en la possició corresponent
         Cards card = getItem(position);
+        LvCardsRowBinding binding = null;
 
         // Mirem a veure si la View s'està reusant, si no es així "inflem" la View
         // https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView#row-view-recycling
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.lv_cards_row, parent, false);
+            //convertView = inflater.inflate(R.layout.lv_cards_row, parent, false);
+            binding = DataBindingUtil.inflate(inflater, R.layout.lv_cards_row, parent, false);
+        } else {
+            binding = DataBindingUtil.getBinding(convertView);
         }
 
+        /*
         // Unim el codi en les Views del Layout
         TextView tvCardTitle = (TextView) convertView.findViewById(R.id.tvCardName);
         TextView tvColor = (TextView) convertView.findViewById(R.id.color);
@@ -43,20 +49,21 @@ public class CardsAdapter extends ArrayAdapter<Cards>{
         TextView tvRarity = (TextView) convertView.findViewById(R.id.rarity);
         TextView tvDescription = (TextView) convertView.findViewById(R.id.text);
         ImageView ivPosterImage = (ImageView) convertView.findViewById(R.id.imgUrl);
+         */
+
 
         // Fiquem les dades dels objectes (provinents del JSON) en el layout
-        tvCardTitle.setText(card.getName());
-        tvColor.setText(card.getColor().toString());
-        tvType.setText(card.getType());
-        tvRarity.setText(card.getRarity());
-        tvDescription.setText(card.getText());
+        binding.tvCardName.setText(card.getName());
+        binding.color.setText(card.getColor().toString());
+        binding.type.setText(card.getType());
+        binding.rarity.setText(card.getRarity());
+        binding.text.setText(card.getText());
 
         //Utilitzem Glide per les imatges
-        Glide.with(getContext()).load(card.getImageUrl()).into(ivPosterImage);
+        Glide.with(getContext()).load(card.getImageUrl()).into(binding.imgUrl);
         Log.w("CARD ", card.toString());
 
-        // Retornem la View replena per a mostrarla
-        return convertView;
+        return binding.getRoot();
 
     }
 }
