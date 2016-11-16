@@ -3,6 +3,7 @@ package com.example.a46066294p.magiccardsapi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -27,6 +28,10 @@ import com.example.a46066294p.magiccardsapi.databinding.FragmentMainBinding;
 import java.util.ArrayList;
 
 import java.util.Set;
+
+import nl.littlerobots.cupboard.tools.provider.UriHelper;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -132,24 +137,19 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-    private class RefreshDataTask extends AsyncTask<Void, Void, ArrayList<Cards>> {
+    private class RefreshDataTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected ArrayList<Cards> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
 
-            DataAccesObject dao = new DataAccesObject();
-            ArrayList<Cards> result = dao.getCards();
+            ArrayList<Cards> result = DataAccesObject.getCards();
 
             Log.d("DEBUG", result != null ? result.toString() : null);
 
-            return result;
-        }
+            UriHelper helper = UriHelper.with(ContentProviderOfMagicCardsAwsomeApi.AUTHORITY);
+            Uri movieUri = helper.getUri(Cards.class);
+            cupboard().withContext(getContext()).put(movieUri, Cards.class, result);
 
-        @Override
-        protected void onPostExecute(ArrayList<Cards> cardsApi) {
-            adapter.clear();
-            for (Cards cards : cardsApi) {
-                adapter.add(cards);
-            }
+            return null;
         }
     }
 
@@ -162,10 +162,10 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-    private class FilterDataTask extends AsyncTask<Void, Void, ArrayList<Cards>> {
+    private class FilterDataTask extends AsyncTask<Void, Void, Void> {
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
-        protected ArrayList<Cards> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             Set<String> selections = preferences.getStringSet("multi_select_list_preference_1" , null);
@@ -188,21 +188,19 @@ public class MainActivityFragment extends Fragment {
             </string-array>
              */
 
-            DataAccesObject dao = new DataAccesObject();
-            ArrayList<Cards> result = dao.getCards(selections, selectedRarity);
+            //DataAccesObject dao = new DataAccesObject();
+            ArrayList<Cards> result = DataAccesObject.getCards(selections, selectedRarity);
 
             Log.d("DEBUG", result != null ? result.toString() : null);
 
-            return result;
+            UriHelper helper = UriHelper.with(ContentProviderOfMagicCardsAwsomeApi.AUTHORITY);
+            Uri cardUri = helper.getUri(Cards.class);
+            cupboard().withContext(getContext()).put(cardUri, Cards.class, result);
+
+            return null;
         }
 
-        @Override
-        protected void onPostExecute(ArrayList<Cards> cardsApi) {
-            adapter.clear();
-            for (Cards cards : cardsApi) {
-                adapter.add(cards);
-            }
-        }
+
     }
 
 }

@@ -23,9 +23,9 @@ public class DataAccesObject {
     public DataAccesObject() {
     }
 
-    private final String BASE_URL = "https://api.magicthegathering.io/v1/cards";
+    private static final String BASE_URL = "https://api.magicthegathering.io/v1/cards";
 
-    public ArrayList<Cards> getCards()  {
+    static ArrayList<Cards> getCards()  {
         String url = getUrl();
 
         Log.d("URL: ", url);
@@ -33,7 +33,7 @@ public class DataAccesObject {
         return doCall(url);
     }
 
-    public ArrayList<Cards> getCards(Set<String> colors)  {
+    static ArrayList<Cards> getCards(Set<String> colors)  {
         String url = getUrl(colors);
 
         Log.d("URL: ", url);
@@ -41,7 +41,7 @@ public class DataAccesObject {
         return doCall(url);
     }
 
-    public ArrayList<Cards> getCards(Set<String> colors, String rarity)  {
+    static ArrayList<Cards> getCards(Set<String> colors, String rarity)  {
         String url = getUrl(colors, rarity);
 
         Log.d("URL: ", url);
@@ -50,7 +50,7 @@ public class DataAccesObject {
     }
 
 
-    private ArrayList<Cards> doCall(String url) {
+    private static ArrayList<Cards> doCall(String url) {
         try {
 
             //conexio a a la api
@@ -64,7 +64,7 @@ public class DataAccesObject {
         return null;
     }
 
-    public String getUrl(Set<String> colors, String rarity) {
+    public static String getUrl(Set<String> colors, String rarity) {
 
         Log.d("getURL-colorSet" , colors.toString());
         Log.d("getURL-rarity" , rarity);
@@ -138,7 +138,7 @@ public class DataAccesObject {
         return builtUri.toString();
     }
 
-    public String getUrl(Set<String> color){
+    public static String getUrl(Set<String> color){
 
         Log.d("getURL-colorSet" , color.toString());
 
@@ -205,7 +205,7 @@ public class DataAccesObject {
         return builtUri.toString();
     }
 
-    public String getUrl(){
+    public static String getUrl(){
         Uri builtUri = Uri.parse(BASE_URL)
                 /*
                 .buildUpon()
@@ -224,7 +224,7 @@ public class DataAccesObject {
     }
 
 
-    private ArrayList<Cards> processJson(String jsonResponse) {
+    private static ArrayList<Cards> processJson(String jsonResponse) {
         ArrayList<Cards> cards = new ArrayList<>();
         try {
             JSONObject data = new JSONObject(jsonResponse);

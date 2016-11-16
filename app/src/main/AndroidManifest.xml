@@ -37,6 +37,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.a46066294p.magiccardsapi.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".ContentProviderOfMagicCardsAwsomeApi"
+            android:authorities="${applicationId}.provider"
+            android:exported="false" />
     </application>
 
 </manifest>
