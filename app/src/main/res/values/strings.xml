@@ -14,11 +14,11 @@
     </string-array>
 
     <string-array name="http_rarity_cards">
-        <item>basic_land</item>
+        <item>basic land</item>
         <item>common</item>
         <item>uncommon</item>
         <item>rare</item>
-        <item>mythic_rare</item>
+        <item>mythic rare</item>
         <item>special</item>
     </string-array>
 
@@ -37,6 +37,7 @@
         <item>Red</item>
         <item>Blue</item>
         <item>Green</item>
+        <item>no_color</item>
     </string-array>
 
     <string-array name="numeric_color_cards">
@@ -45,6 +46,7 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
+        <item>6</item>
     </string-array>
 
 

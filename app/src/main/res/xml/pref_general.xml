@@ -24,10 +24,17 @@
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
 
     <MultiSelectListPreference
-        android:title="Filter"
+        android:title="Color Filter"
         android:defaultValue="@array/color_cards"
         android:entries="@array/color_cards"
         android:entryValues="@array/color_cards"
         android:key="multi_select_list_preference_1" />
+
+    <ListPreference
+        android:defaultValue="@array/rarity_cards"
+        android:title="Rarity Filter"
+        android:entries="@array/rarity_cards"
+        android:entryValues="@array/rarity_cards"
+        android:key="list_preference_1" />
 
 </PreferenceScreen>

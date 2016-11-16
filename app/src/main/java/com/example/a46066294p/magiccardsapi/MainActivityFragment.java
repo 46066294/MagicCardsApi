@@ -8,6 +8,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.ArraySet;
@@ -77,12 +78,20 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refresh();
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        //refresh();
         filter();
     }
 
@@ -145,8 +154,7 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-
-    private void filter() {
+    void filter() {
 
         FilterDataTask task = new FilterDataTask();
         task.execute();
@@ -161,10 +169,13 @@ public class MainActivityFragment extends Fragment {
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             Set<String> selections = preferences.getStringSet("multi_select_list_preference_1" , null);
-            String[] selected= selections.toArray(new String[] {});
-            for (int i = 0; i < selected.length ; i++){
-                System.out.println("\ntest" + i +" : " + selected[i]);
+            String[] selectedColor = selections.toArray(new String[] {});
+            for (int i = 0; i < selectedColor.length ; i++){
+                System.out.println("\ntestColor" + i +" : " + selectedColor[i]);
             }
+
+            String selectedRarity = preferences.getString("list_preference_1" , null);
+            System.out.println("\ntestRariry : " + selectedRarity);
 
             /*
             <string-array name="http_rarity_cards">
@@ -178,7 +189,7 @@ public class MainActivityFragment extends Fragment {
              */
 
             DataAccesObject dao = new DataAccesObject();
-            ArrayList<Cards> result = dao.getCards(selections);
+            ArrayList<Cards> result = dao.getCards(selections, selectedRarity);
 
             Log.d("DEBUG", result != null ? result.toString() : null);
 

@@ -41,6 +41,14 @@ public class DataAccesObject {
         return doCall(url);
     }
 
+    public ArrayList<Cards> getCards(Set<String> colors, String rarity)  {
+        String url = getUrl(colors, rarity);
+
+        Log.d("URL: ", url);
+
+        return doCall(url);
+    }
+
 
     private ArrayList<Cards> doCall(String url) {
         try {
@@ -54,6 +62,80 @@ public class DataAccesObject {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String getUrl(Set<String> colors, String rarity) {
+
+        Log.d("getURL-colorSet" , colors.toString());
+        Log.d("getURL-rarity" , rarity);
+
+        List<String> colorList = new ArrayList<String>(colors);
+        int size = colorList.size();
+
+        Uri builtUri = Uri.parse(BASE_URL);
+
+        if(colorList.get(0).equals("no_color")){
+            builtUri = Uri.parse(BASE_URL)
+                    .buildUpon()
+                    .appendQueryParameter("rarity", rarity)
+                    .build();
+            return builtUri.toString();
+        }
+
+
+        switch (size) {
+            case 1:
+                builtUri = Uri.parse(BASE_URL)
+                        .buildUpon()
+                        .appendQueryParameter("rarity", rarity)
+                        .appendQueryParameter("colors", colorList.get(0))
+                        .build();
+                break;
+
+            case 2:
+                builtUri = Uri.parse(BASE_URL)
+                        .buildUpon()
+                        .appendQueryParameter("rarity", rarity)
+                        .appendQueryParameter("colors", colorList.get(0))
+                        .appendQueryParameter("colors", colorList.get(1))
+                        .build();
+                break;
+
+            case 3:
+                builtUri = Uri.parse(BASE_URL)
+                        .buildUpon()
+                        .appendQueryParameter("rarity", rarity)
+                        .appendQueryParameter("colors", colorList.get(0))
+                        .appendQueryParameter("colors", colorList.get(1))
+                        .appendQueryParameter("colors", colorList.get(2))
+                        .build();
+                break;
+
+            case 4:
+                builtUri = Uri.parse(BASE_URL)
+                        .buildUpon()
+                        .appendQueryParameter("rarity", rarity)
+                        .appendQueryParameter("colors", colorList.get(0))
+                        .appendQueryParameter("colors", colorList.get(1))
+                        .appendQueryParameter("colors", colorList.get(2))
+                        .appendQueryParameter("colors", colorList.get(3))
+                        .build();
+                break;
+
+            case 5:
+                builtUri = Uri.parse(BASE_URL)
+                        .buildUpon()
+                        .appendQueryParameter("rarity", rarity)
+                        .appendQueryParameter("colors", colorList.get(0))
+                        .appendQueryParameter("colors", colorList.get(1))
+                        .appendQueryParameter("colors", colorList.get(2))
+                        .appendQueryParameter("colors", colorList.get(3))
+                        .appendQueryParameter("colors", colorList.get(4))
+                        .build();
+                break;
+        }
+
+        return builtUri.toString();
     }
 
     public String getUrl(Set<String> color){
@@ -136,6 +218,7 @@ public class DataAccesObject {
                 .build();
                 */
                 .buildUpon()
+                .appendQueryParameter("pageSize", "90")
                 .build();
         return builtUri.toString();
     }

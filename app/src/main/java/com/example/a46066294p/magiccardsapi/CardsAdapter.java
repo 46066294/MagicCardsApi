@@ -57,7 +57,7 @@ public class CardsAdapter extends ArrayAdapter<Cards>{
         binding.color.setText(card.getColor().toString());
         binding.type.setText(card.getType());
         binding.rarity.setText(card.getRarity());
-        binding.text.setText(card.getText());
+        //binding.text.setText(card.getText());
 
         //Utilitzem Glide per les imatges
         Glide.with(getContext()).load(card.getImageUrl()).into(binding.imgUrl);
