@@ -41,16 +41,6 @@ public class CardsAdapter extends ArrayAdapter<Cards>{
             binding = DataBindingUtil.getBinding(convertView);
         }
 
-        /*
-        // Unim el codi en les Views del Layout
-        TextView tvCardTitle = (TextView) convertView.findViewById(R.id.tvCardName);
-        TextView tvColor = (TextView) convertView.findViewById(R.id.color);
-        TextView tvType = (TextView) convertView.findViewById(R.id.type);
-        TextView tvRarity = (TextView) convertView.findViewById(R.id.rarity);
-        TextView tvDescription = (TextView) convertView.findViewById(R.id.text);
-        ImageView ivPosterImage = (ImageView) convertView.findViewById(R.id.imgUrl);
-         */
-
 
         // Fiquem les dades dels objectes (provinents del JSON) en el layout
         binding.tvCardName.setText(card.getName());

@@ -1,7 +1,9 @@
 package com.example.a46066294p.magiccardsapi;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,10 +31,11 @@ import com.example.a46066294p.magiccardsapi.databinding.FragmentMainBinding;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    private ArrayList<Cards> items;
+    //private ArrayList<Cards> items;
     private CardsCursorAdapter adapter;
+    private ProgressDialog dialog;
 
     public MainActivityFragment() {
     }
@@ -49,16 +54,12 @@ public class MainActivityFragment extends Fragment {
                 inflater, R.layout.fragment_main, container, false);//Data Binding Layout Files --> ver https://developer.android.com/topic/libraries/data-binding/index.html
         View view = binding.getRoot();
 
-        /*View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView lvCards = (ListView)view.findViewById(R.id.lvCards);*/
-
-        String[] data = {"Loading..."};
-
-        items = new ArrayList<>();
         adapter = new CardsCursorAdapter(getContext(), Cards.class);
 
-        binding.lvCards.setAdapter(adapter);
+        dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Loading...");
 
+        binding.lvCards.setAdapter(adapter);
         binding.lvCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -73,9 +74,11 @@ public class MainActivityFragment extends Fragment {
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refresh();
+                //refresh();
             }
         });
+
+        getLoaderManager().initLoader(0, null, this);
 
         return view;
     }
@@ -84,7 +87,7 @@ public class MainActivityFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //refresh();
-        filter();
+        //filter();
     }
 
     @Override
@@ -116,15 +119,31 @@ public class MainActivityFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
     private void refresh() {
 
         RefreshDataTask task = new RefreshDataTask();
         task.execute();
 
+
     }
 
 
+
+
     private class RefreshDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
 
@@ -145,17 +164,31 @@ public class MainActivityFragment extends Fragment {
         FilterDataTask task = new FilterDataTask();
         task.execute();
 
+
     }
 
 
     private class FilterDataTask extends AsyncTask<Void, Void, Void> {
-        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
+
         @Override
         protected Void doInBackground(Void... voids) {
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             Set<String> selections = preferences.getStringSet("multi_select_list_preference_1" , null);
             String[] selectedColor = selections.toArray(new String[] {});
+
             for (int i = 0; i < selectedColor.length ; i++){
                 System.out.println("\ntestColor" + i +" : " + selectedColor[i]);
             }
@@ -173,8 +206,22 @@ public class MainActivityFragment extends Fragment {
 
             return null;
         }
+    }
 
+    //Interface methods
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return DataManager.getCursorLoader(getContext());
+    }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 
 }
