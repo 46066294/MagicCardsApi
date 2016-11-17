@@ -3,16 +3,13 @@ package com.example.a46066294p.magiccardsapi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,17 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.Set;
 
 import com.example.a46066294p.magiccardsapi.databinding.FragmentMainBinding;
 
-import java.util.ArrayList;
-
-import java.util.Set;
-
-import nl.littlerobots.cupboard.tools.provider.UriHelper;
-
-import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -39,7 +30,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class MainActivityFragment extends Fragment {
 
     private ArrayList<Cards> items;
-    private CardsAdapter adapter;
+    private CardsCursorAdapter adapter;
 
     public MainActivityFragment() {
     }
@@ -64,11 +55,7 @@ public class MainActivityFragment extends Fragment {
         String[] data = {"Loading..."};
 
         items = new ArrayList<>();
-        adapter = new CardsAdapter(
-                getContext(),
-                R.layout.lv_cards_row,
-                items
-        );
+        adapter = new CardsCursorAdapter(getContext(), Cards.class);
 
         binding.lvCards.setAdapter(adapter);
 
@@ -145,9 +132,8 @@ public class MainActivityFragment extends Fragment {
 
             Log.d("DEBUG", result != null ? result.toString() : null);
 
-            UriHelper helper = UriHelper.with(ContentProviderOfMagicCardsAwsomeApi.AUTHORITY);
-            Uri movieUri = helper.getUri(Cards.class);
-            cupboard().withContext(getContext()).put(movieUri, Cards.class, result);
+            DataManager.deleteCards(getContext());
+            DataManager.saveCards(result, getContext());
 
             return null;
         }
@@ -177,25 +163,13 @@ public class MainActivityFragment extends Fragment {
             String selectedRarity = preferences.getString("list_preference_1" , null);
             System.out.println("\ntestRariry : " + selectedRarity);
 
-            /*
-            <string-array name="http_rarity_cards">
-                <item>basic_land</item>
-                <item>common</item>
-                <item>uncommon</item>
-                <item>rare</item>
-                <item>mythic_rare</item>
-                <item>special</item>
-            </string-array>
-             */
-
             //DataAccesObject dao = new DataAccesObject();
             ArrayList<Cards> result = DataAccesObject.getCards(selections, selectedRarity);
 
             Log.d("DEBUG", result != null ? result.toString() : null);
 
-            UriHelper helper = UriHelper.with(ContentProviderOfMagicCardsAwsomeApi.AUTHORITY);
-            Uri cardUri = helper.getUri(Cards.class);
-            cupboard().withContext(getContext()).put(cardUri, Cards.class, result);
+            DataManager.deleteCards(getContext());
+            DataManager.saveCards(result, getContext());
 
             return null;
         }
