@@ -26,7 +26,7 @@ public class DataManager {
         cupboard().withContext(context).delete(CARDS_URI, "_id > ?", "0");
     }
 
-
+    //cargar nueva peticion para filtrar en las cartas guardadas
     static CursorLoader getCursorLoader(Context context) {
         return new CursorLoader(context, CARDS_URI, null, null, null, null);
     }

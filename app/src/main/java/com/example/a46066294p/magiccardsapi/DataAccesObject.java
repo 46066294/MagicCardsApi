@@ -186,7 +186,7 @@ public class DataAccesObject {
                 card.setType(jsonOneCard.getString("type"));
                 card.setRarity(jsonOneCard.getString("rarity"));
 
-                if(jsonOneCard.toString().contains("\"colors\":")){
+                if(jsonOneCard.toString().contains("\"colors\":")){//hasColor
                     JSONArray jsonArrayColors = jsonOneCard.getJSONArray("colors");
                     if(jsonArrayColors.length() > 1)
                         card.setColor("Various colors");

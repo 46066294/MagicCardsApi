@@ -86,8 +86,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onStart() {
         super.onStart();
-        refresh();
-        //filter();
+        //refresh();
+        filter();
     }
 
     @Override
