@@ -48,7 +48,7 @@ public class DataAccesObject {
 
         for (int i = 0; i < PAGES; i++) {
             try {
-                String urlStr = getUrl(colors, url, i);
+                String urlStr = getUrl(colors, url);
                 String JsonResponse = HttpUtils.get(urlStr);
                 ArrayList<Cards> list = processJson(JsonResponse);
                 cards.addAll(list);
@@ -73,7 +73,7 @@ public class DataAccesObject {
         return null;
     }
 
-    public static String getUrl(Set<String> colors, String rarity, int page) {
+    public static String getUrl(Set<String> colors, String rarity) {
 
         Log.d("getURL-colorSet" , colors.toString());
         Log.d("getURL-rarity" , rarity);
@@ -87,7 +87,7 @@ public class DataAccesObject {
             builtUri = Uri.parse(BASE_URL)
                     .buildUpon()
                     .appendQueryParameter("rarity", rarity)
-                    .appendQueryParameter("page", String.valueOf(page))
+                    //.appendQueryParameter("page", String.valueOf(page))
                     .build();
             return builtUri.toString();
         }
@@ -99,7 +99,7 @@ public class DataAccesObject {
                         .buildUpon()
                         .appendQueryParameter("rarity", rarity)
                         .appendQueryParameter("colors", colorList.get(0))
-                        .appendQueryParameter("page", String.valueOf(page))
+                        //.appendQueryParameter("page", String.valueOf(page))
                         .build();
                 break;
 
@@ -109,7 +109,7 @@ public class DataAccesObject {
                         .appendQueryParameter("rarity", rarity)
                         .appendQueryParameter("colors", colorList.get(0))
                         .appendQueryParameter("colors", colorList.get(1))
-                        .appendQueryParameter("page", String.valueOf(page))
+                        //.appendQueryParameter("page", String.valueOf(page))
                         .build();
                 break;
 
@@ -120,7 +120,7 @@ public class DataAccesObject {
                         .appendQueryParameter("colors", colorList.get(0))
                         .appendQueryParameter("colors", colorList.get(1))
                         .appendQueryParameter("colors", colorList.get(2))
-                        .appendQueryParameter("page", String.valueOf(page))
+                        //.appendQueryParameter("page", String.valueOf(page))
                         .build();
                 break;
 
@@ -132,7 +132,7 @@ public class DataAccesObject {
                         .appendQueryParameter("colors", colorList.get(1))
                         .appendQueryParameter("colors", colorList.get(2))
                         .appendQueryParameter("colors", colorList.get(3))
-                        .appendQueryParameter("page", String.valueOf(page))
+                        //.appendQueryParameter("page", String.valueOf(page))
                         .build();
                 break;
 
@@ -145,7 +145,7 @@ public class DataAccesObject {
                         .appendQueryParameter("colors", colorList.get(2))
                         .appendQueryParameter("colors", colorList.get(3))
                         .appendQueryParameter("colors", colorList.get(4))
-                        .appendQueryParameter("page", String.valueOf(page))
+                        //.appendQueryParameter("page", String.valueOf(page))
                         .build();
                 break;
         }
@@ -188,12 +188,12 @@ public class DataAccesObject {
 
                 if(jsonOneCard.toString().contains("\"colors\":")){
                     JSONArray jsonArrayColors = jsonOneCard.getJSONArray("colors");
-                    for(int j = 0; j < jsonArrayColors.length(); j++){
-                        String color = jsonArrayColors.getString(j);
-                        card.addColor(color);
-                    }
+                    if(jsonArrayColors.length() > 1)
+                        card.setColor("Various colors");
+                    else
+                        card.setColor((String) jsonArrayColors.get(0));
                 } else
-                    card.addColor("no_color");
+                    card.setColor("no_color");
 
                 if(jsonOneCard.toString().contains("\"text\"")){
                     card.setText(jsonOneCard.getString("text"));
@@ -201,7 +201,6 @@ public class DataAccesObject {
                     card.setText("no_text");
 
                 card.setImageUrl(jsonOneCard.getString("imageUrl"));
-
                 cards.add(card);
             }
         }

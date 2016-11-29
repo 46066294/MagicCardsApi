@@ -72,7 +72,7 @@ public class DetailActivityFragment extends Fragment {
         binding.tvCardName.setText(card.getName());
         binding.tvCardType.setText(card.getType());
         binding.tvCardRarity.setText(card.getRarity());
-        binding.tvCardColor.setText((CharSequence) card.getColor().toString());
+        binding.tvCardColor.setText(card.getColor());
         binding.tvCardText.setText(card.getText());
 
         Glide.with(getContext()).load(card.getImageUrl()).into(binding.ivImageCard);

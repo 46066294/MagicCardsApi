@@ -57,7 +57,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         adapter = new CardsCursorAdapter(getContext(), Cards.class);
 
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("Loading...");
+        dialog.setMessage("Loading data...");
 
         binding.lvCards.setAdapter(adapter);
         binding.lvCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,7 +86,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onStart() {
         super.onStart();
-        //refresh();
+        refresh();
         //filter();
     }
 
@@ -159,11 +159,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
 
-    void filter() {
-
+    private void filter() {
         FilterDataTask task = new FilterDataTask();
         task.execute();
-
 
     }
 

@@ -1,7 +1,6 @@
 package com.example.a46066294p.magiccardsapi;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by 46066294p on 14/10/16.
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 public class Cards implements Serializable{
 
     private String name;
-    private ArrayList<String> color = new ArrayList<String>();
+    private String color;
     private String rarity;
     private String text;
     private String type;
@@ -18,7 +17,7 @@ public class Cards implements Serializable{
 
     public Cards(){}
 
-    public Cards(String name, ArrayList color, String rarity, String text, String type, String imageUrl) {
+    public Cards(String name, String color, String rarity, String text, String type, String imageUrl) {
         this.name = name;
         this.color = color;
         this.rarity = rarity;
@@ -35,11 +34,11 @@ public class Cards implements Serializable{
         this.name = name;
     }
 
-    public ArrayList getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(ArrayList color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -87,7 +86,4 @@ public class Cards implements Serializable{
                 '}' + "\n";
     }
 
-    void addColor(String color) {
-        this.color.add(color);
-    }
 }

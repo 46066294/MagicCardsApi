@@ -32,7 +32,7 @@ public class CardsCursorAdapter extends CupboardCursorAdapter<Cards>{
     public void bindView(View view, Context context, Cards model) {
         LvCardsRowBinding binding = DataBindingUtil.getBinding(view);
         binding.tvCardName.setText(model.getName());
-        binding.color.setText((CharSequence) model.getColor());
+        binding.color.setText(model.getColor());
         binding.rarity.setText(model.getRarity());
         binding.type.setText(model.getType());
 
